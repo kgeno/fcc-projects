@@ -1,12 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background: #4e4546;
 }
 
 main {
-    
-}
-
-#fixed-bg {
-    background: url(img/bill-burr.png) no-repeat;
-    height: 98.1vh;
+    background: url(img/bill-burr.jpg) right top no-repeat fixed;
+    background-size: auto;
+    height: 100vh;
 }
