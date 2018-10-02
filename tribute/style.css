@@ -1,0 +1,12 @@
+body {
+    background: #4e4546;
+}
+
+main {
+    
+}
+
+#fixed-bg {
+    background: url(img/bill-burr.png) no-repeat;
+    height: 98.1vh;
+}
