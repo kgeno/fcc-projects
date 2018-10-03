@@ -7,17 +7,13 @@
 
 body, html {
     font-family: 'Lato', sans-serif;
-    /* height: 100%; */
     color: #ccc1b5;
-    font-size: 16px;
-}
-
-#wrapper {
-    position: fixed;
+    font-size: 18px;
+    line-height: 1.3em;
+    height: 100%;
+    width: auto;
     background: url(img/bill-burr-1920x1080.jpg) top right no-repeat fixed;
     background-size: cover;
-    height: 100%;
-    width: 100%;
 }
 
 #main {
@@ -26,9 +22,30 @@ body, html {
 }
 
 #title {
-    margin: 2em 0 1em 0;
     font-family: 'Shadows Into Light', cursive;
     font-size: 4em;
+    padding-top: 1em;
+    height: 1.5em;
+    color: #da6d2f;
+    border-bottom: 3px dashed #ccc1b5;
+}
+
+h1, h2, h3, h4, p {
+    margin-bottom: 1em;
+}
+
+li {
+    margin-bottom: 1em;
+}
+
+a {
+    color: #da6d2f;
+    text-decoration: none;
+    border-bottom: 1px dotted #da6d2f;
+}
+
+a:hover {
+    border: none;
 }
 
 #image {
@@ -43,6 +60,33 @@ body, html {
     margin: 0 0 1em 0;
     background: #3f3c38;
     border-left: 10px solid #353331;
+}
+
+.img-left {
+    float: left;
+    padding: 0 20px 20px 0;
+}
+
+.img-right {
+    float: right;
+    padding: 0 0 20px 20px;
+}
+
+.img-300 {
+    max-width: 200px;
+}
+
+#footer {
+    clear: both;
+    padding: 2em;
+    margin-top: 5em;
+    border-top: 2px dashed #353331;
+}
+
+.copyright {
+    font-style: italic;
+    color: #ccc1b5;
+    font-size: 14px;
 }
 
 @media (max-width: 1440px) {
