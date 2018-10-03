@@ -113,3 +113,14 @@ body, html {
     max-width: 60%;
 }
 }
+
+@media (max-width: 700px) {
+.img-left, .img-right {
+    float: none;
+    padding: 0 20px 20px 0;
+    display: block;
+}
+.img-300 {
+    max-width: 300px;
+}
+}
