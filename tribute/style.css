@@ -19,6 +19,7 @@ body, html {
 #main {
     max-width: 765px;
     margin-left: 15%;
+    padding: 1em;
 }
 
 #title {
@@ -89,15 +90,26 @@ a:hover {
     font-size: 14px;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1500px) {
 #main {
     margin-left: 5%;
 }
 }
 
-@media (max-width: 1260px) {
+@media (max-width: 1350px) {
 #main {
-    max-width: 600px;
+    max-width: 50%;
     margin-left: 2%;
+}
+}
+
+@media (max-width: 1024px) {
+body, html {
+    background: url(img/bill-burr-1920x1080.jpg) 70% 50% no-repeat fixed;
+    background-size: cover;
+}
+
+#main {
+    max-width: 60%;
 }
 }
