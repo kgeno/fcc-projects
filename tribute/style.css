@@ -12,13 +12,13 @@ body, html {
     line-height: 1.3em;
     height: 100%;
     width: auto;
-    background: url(img/bill-burr-1920x1080.jpg) top right no-repeat fixed;
+    background: url(img/bill-burr-1920x1080.jpg) 70% 50% no-repeat fixed;
     background-size: cover;
 }
 
 #main {
     max-width: 765px;
-    margin-left: 15%;
+    margin-left: 10%;
     padding: 1em;
 }
 
@@ -74,7 +74,7 @@ a:hover {
 }
 
 .img-300 {
-    max-width: 200px;
+    max-width: 300px;
 }
 
 #footer {
@@ -90,31 +90,16 @@ a:hover {
     font-size: 14px;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1439px) {
 #main {
     margin-left: 5%;
 }
 }
 
-@media (max-width: 1350px) {
-#main {
-    max-width: 50%;
-    margin-left: 2%;
-}
-}
-
-@media (max-width: 1024px) {
-body, html {
-    background: url(img/bill-burr-1920x1080.jpg) 70% 50% no-repeat fixed;
-    background-size: cover;
-}
-
+@media (max-width: 1110px) {
 #main {
     max-width: 60%;
 }
-}
-
-@media (max-width: 700px) {
 .img-left, .img-right {
     float: none;
     padding: 0 20px 20px 0;
@@ -122,5 +107,21 @@ body, html {
 }
 .img-300 {
     max-width: 300px;
+}
+}
+
+@media (max-width: 732px) {
+#title {
+    font-size: 3em;
+}
+}
+
+@media (max-width: 640px) {
+body, html {
+    background-position: left bottom;
+}
+#main {
+    max-width: 90%;
+    margin: auto;
 }
 }
