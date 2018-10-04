@@ -59,6 +59,7 @@ a:hover {
     font-style: italic;
     padding: 0.5em;
     margin: 0 0 1em 0;
+    max-width: 100%;
     background: #3f3c38;
     border-left: 10px solid #353331;
 }
@@ -132,9 +133,20 @@ body, html {
     and (orientation: portrait) {
 body, html {
     background-position: left bottom;
+    height: 100vh;
 }
 #main {
     max-width: 90%;
     margin: auto;
+}
+#image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+.img-300 {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 }
