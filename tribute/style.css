@@ -125,3 +125,16 @@ body, html {
     margin: auto;
 }
 }
+
+@media screen only
+    and (min-width: 375px)
+    and (max-width: 1080px)
+    and (orientation: portrait) {
+body, html {
+    background-position: left bottom;
+}
+#main {
+    max-width: 90%;
+    margin: auto;
+}
+}
