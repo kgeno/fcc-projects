@@ -116,10 +116,7 @@ a:hover {
 }
 }
 
-@media screen only
-    and (min-width: 375px)
-    and (max-width: 812px)
-    and (orientation: portrait) {
+@media (max-width: 812px) {
 body, html {
     background-position: left bottom;
 }
