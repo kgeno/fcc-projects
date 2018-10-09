@@ -1,0 +1,7 @@
+@import url(screen.css);
+
+#nav-bar ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
