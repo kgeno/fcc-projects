@@ -1,0 +1,33 @@
+body {
+  background: #ececec;
+  color: #616161;
+}
+
+main {
+  background: #ffffff;
+  max-width: 60%;
+  margin: 5em auto;
+  border: 3px solid #e6e6e6;
+  border-radius: 10px;
+  box-shadow: 0 0 30px 1px #dadada;
+  padding: 5em 10em;
+}
+
+::placeholder {
+  color: #d4d4d4 !important;
+  opacity: 1;
+}
+
+@media (max-width: 1440px) {
+main {
+  max-width: 80%;
+}
+}
+
+@media only screen and (max-width: 1080px) {
+main {
+  max-width: 95%;
+  padding: 5%;
+  margin: 1em auto;
+}
+}

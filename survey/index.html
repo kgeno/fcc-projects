@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Coder Survey</title>
+</head>
+<body>
+  <main>
+    <h1 id="title">Coder Survey</h1>
+    <p id="description">
+      We're building a massive dataset about coders.
+    </p>
+    <form action="#" id="survey-form">
+      <div class="form-group">
+        <label for="name" id="name-label">Name</label>
+        <input type="text" name="name" id="name" class="form-control" placeholder="Jane Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="email"id="email-label">Email</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="j.doe@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label for="age" id="number-label">Age</label>
+        <input type="number" name="age" id="number" min="10" max="90" class="form-control" placeholder="24">
+      </div>
+      <div class="form-group">
+        <label for="dropdown">What type of developer are you?</label>
+        <select name="developer" id="dropdown" class="form-control" >
+          <option value="backend">Back-end developer</option>
+          <option value="frontend">Front-end developer</option>
+          <option value="fullstack">Full-stack developer</option>
+          <option value="mobile">Mobile developer</option>
+          <option value="desktop-enterprise">Desktop or enterprise developer</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <label for="languages">Languages you're familiar with:</label>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="js" value="js">
+            <label class="custom-control-label" for="js">JavaScript</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="py" value="py">
+            <label class="custom-control-label" for="py">Python</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="php" value="php">
+            <label class="custom-control-label" for="php">PHP</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="htmlcss" value="htmlcss">
+            <label class="custom-control-label" for="htmlcss">HTML/CSS</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="ruby" value="ruby">
+            <label class="custom-control-label" for="ruby">Ruby</label>
+          </div>
+        </div>
+        <div class="col">
+          <label for="rate">How long have you been coding?</label>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="under1year" name="customRadio" value="under1year" class="custom-control-input">
+            <label class="custom-control-label" for="under1year">Under a year</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="1-2years" name="customRadio" value="1-2years" class="custom-control-input">
+            <label class="custom-control-label" for="1-2years">1-2 years</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="3-5years" name="customRadio" value="3-5years" class="custom-control-input">
+            <label class="custom-control-label" for="3-5years">3-5 years</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="6-9years" name="customRadio" value="6-9years" class="custom-control-input">
+            <label class="custom-control-label" for="6-9years">6-9 years</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" id="10years" name="customRadio" value="10years" class="custom-control-input">
+            <label class="custom-control-label" for="10years">10 years or more</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="word-for-new-coders">A few words for aspiring coders:</label>
+        <textarea class="form-control" id="word-for-new-coders" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+    </form>
+  </main>
+  <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
+</body>
+</html>
