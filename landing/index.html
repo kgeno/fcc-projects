@@ -4,35 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="screen.css">
-    <title>St. Michelle Bouquet</title>
+    <title>Sargantino Cellar</title>
 </head>
 <body>
     <header id="header">
-        <nav id="nav-bar" class="navbar">
+        <nav class="scroll-navbar">
+            <img src="img/sagrantino-cellar-logo-white.png" alt="Sagrantino Cellar" id="scroll-logo">
             <ul>
-                <li><a class="nav-link" href="#email">Sign Up</a></li>
-                <li><a class="nav-link" href="#crates">Crates</a></li>
+                <li><a class="nav-link" href="#about">About Us</a></li>
+                <li><a class="nav-link" href="#assortment">Assortment</a></li>
+                <li><a class="nav-link" href="#news">News</a></li>
                 <li><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
         </nav>
-        <img src="img/sagrantino-crates-logo.png" id="header-img">
-        <div id="signup">
-            <form id="form" action="https://www.freecodecamp.com/email-submit">
-                <input type="email" name="email" id="email" placeholder="Your Email">
-                <button type="submit" id="submit">Sign Up</button>
-            </form>
+        <img src="img/sagrantino-cellar-logo-white.png" id="header-img">
+        <nav id="nav-bar">
+            <ul>
+                <li><a class="nav-link" href="#email">About Us</a></li>
+                <li><a class="nav-link" href="#assortment">Assortment</a></li>
+                <li><a class="nav-link" href="#news">News</a></li>
+                <li><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="slogan">
+            <h1>Traditional<br>Winemaking</h1>
         </div>
     </header>
     <main>
-        <div id="winery">
-            <video src="" id="video"></video>
+        <div id="assortment">
+            <article>
+                <img class="white" src="img/La-Motte_Straw_large.png" alt="La Motte Straw">
+                <div class="sortDesc">
+                    <h2>La Motte Straw</h2>
+                    <p>
+                        Viognier with is distinctive aromatic properties was chosen for this wine while the special drying process and barrel maturation ensured its golden colour. Intense dried apricot and almond as well as the distinctive aroma of jasmine flowers are prominent on the nose. These flavours follow through on the palate with a silky texture and nutty aftertaste.
+                    </p>
+                    <a href="#" class="moreArr">&rarr; Show More</a>
+                </div>
+            </article>
+            <article>
+                <div class="sortDesc">
+                    <h2>Pierneef Syrah Viognier</h2>
+                    <p>
+                        This red-and-white blend with its rich, fruity style is a versatile partner to food, as the structure and spice of the Syrah as well as the floral nuances of the Viognier allow it to complement beef, venison and charcuterie, aromatic curries, game birds such as quail and duck, as well as reduced fruit flavours.
+                    </p>
+                    <a href="#" class="moreArr">&rarr; Show More</a>
+                </div>
+                <img class="red" src="img/2015_Pierneef_Shiraz_Viognier_large.png" alt="Pierneef Syrah Viognier">
+            </article>
+            <article>
+                <img class="white" src="img/La-Motte-Sauvignon-Blanc_large.png" alt="La Motte Sauvignon Blanc">
+                <div class="sortDesc">
+                    <h2>La Motte Sauvignon Blanc</h2>
+                    <p>
+                        A refreshing aperitif and perfect with salads, seafoods, seafood pasta and spicy foods such as Chinese and Thai dishes.
+                    </p>
+                    <a href="#" class="moreArr">&rarr; Show More</a>
+                </div>
+            </article>
         </div>
-        <div id="crates"></div>
-        <div id="contact"></div>
+        <div id="news">
+            <div class="postPreview">
+                <img src="img/La_Motte_Courtyard_for_Garden_Menu_13.jpg" alt="Sargantino Courtyard">
+                <div class="postDesc">
+                    <a href="#"><h3>Sargantino Cellar recognised as Wine Tourism Destination of the Year</h3></a>
+                    <small>10/10/2018</small>
+                    <p>
+                        Celebrating International Tourism Day on 27 September in style, the Cape Winelands District Municipality last night announced the winners in its annual Mayoral Tourism Awards. Sargantino Cellar in the Franschhoek Valley was recognized as the winner in the category for Tourism Destination of the Year.
+                    </p>
+                    <a href="#" class="readMore">&rarr; Read more</a>
+                </div>
+            </div>
+        </div>
+        <div id="about">
+            <div class="title">
+                <h2>About Us</h2>
+                <img src="img/about-us-section.jpg" alt="Sagrantino Cellar">
+            </div>
+            <div class="aboutDesc">
+                <h3>The Start of the Journey</h3>
+                <p class="firstP">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                </p>
+                <h3>The Family Farms</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+        <div id="contact">
+            <div class="col">
+                <h2>Contact Us</h2>
+                <ul>
+                    <li><i class="fas fa-phone-square"></i> +90 320 548 3364</li>
+                    <li><i class="fas fa-envelope-square"></i> info@sagrantinocellar.com</li>
+                    <li><i class="fab fa-facebook-square"></i> SagrantinoCellar</li>
+                </ul>
+            </div>
+            <div class="col">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="jane.doe@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea class="form-control" id="message" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
     </main>
     <footer></footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="main.js"></script>
     <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
 </body>
 </html>
