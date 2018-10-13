@@ -25,12 +25,20 @@ a:hover {
     background-size: cover;
     height: 100vh;
     position: relative;
+    overflow: hidden;
 }
 
 #header-img {
     display: block;
     padding: 3em 5em;
     opacity: 0.8;
+}
+
+.topnav {
+    height: 1px;
+    width: 1px;
+    position: absolute;
+    right: -9999px;
 }
 
 .scroll-navbar {
@@ -278,10 +286,14 @@ p.firstP {
 }
 
 #contact {
-    max-width: 1060px;
-    margin: 50px auto 0;
-    padding: 100px 0 0;
     display: flex;
+    flex-direction: row;
+    max-width: 1060px;
+    margin: 0 auto;
+}
+
+.contact-col {
+    min-width: 50%;
 }
 
 #contact h2 {
