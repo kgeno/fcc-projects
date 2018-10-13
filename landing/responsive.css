@@ -21,9 +21,74 @@
   display: none;
 }
 
+#assortment {
+  max-width: 95%;
+}
+
+.sortImg {
+  width: 100%;
+  padding: 10px 85px;
+}
+
+.sortImg img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.sortItem {
+  flex-direction: column;
+  align-content: center;
+}
+
+.reverseFlex {
+  flex-direction: column;
+}
+
+.reverseFlex .sortDesc {
+  margin: 0;
+}
+
+.sortDesc {
+  margin: 0;
+}
+
+.sortDesc h2 {
+  margin-top: 1em;
+  text-align: center;
+}
+
+#news {
+  padding: 1em;
+}
+
+.postImg {
+  min-width: 100%;
+  padding: 0 0 2em;
+}
+
+.postPreview {
+  flex-direction: column;
+  max-width: 95%;
+}
 
 
+#about {
+  flex-direction: column;
+}
 
+.title {
+  width: 100%;
+  margin-bottom: 3em;
+}
+
+.aboutDesc {
+  padding: 0 1em;
+}
+
+#contact {
+  flex-direction: column;
+}
 
 }
 
