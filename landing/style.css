@@ -13,6 +13,11 @@ h1, h2, h3, h4, h5, h6 {
 
 a {
     text-decoration: none !important;
+    color: #71a189;
+}
+
+a:hover {
+    color: #608b76;
 }
 
 #header {
@@ -102,7 +107,7 @@ a {
 .slogan {
     color: #fff;
     position: absolute;
-    bottom: 20em;
+    top: 20em;
     right: 3em;
 }
 
@@ -117,62 +122,61 @@ a {
 }
 
 #assortment {
+    padding-top: 100px;
     max-width: 1060px;
     margin: 0 auto 100px;
-    padding: 100px 0;
 }
 
-article {
+.sortItem {
     display: flex;
     flex-direction: row;
-    padding: 100px 0;
+    flex: 0 0 auto;
+    align-items: center;
+    margin: 150px 0;
 }
 
-article img {
-    display: inline-block;
+.reverseFlex {
+    flex-direction: row-reverse;
+}
+
+.sortImg {
     border-radius: 50%;
     padding: 10px 101px;
 }
 
-article img.white {
-    background: #fdf9d0;
-}
-
-article img.red {
-    background: #ffbfbf;
+.sortDesc h2 {
+    color: #72435b;
+    font-size: 2.5em;
+    padding-bottom: 1em;
 }
 
 .sortDesc {
-    align-self: center;
-    padding: 5em;
-}
-
-.sortDesc h2 {
-    font-size: 3.5em;
-    margin-bottom: 1em;
-    color: #72435b;
-    line-height: 0.8em;
-}
-
-.sortDesc p {
-    line-height: 1.5em;
     font-size: 1.1em;
     color: #686868;
+    margin-left: 100px;
 }
 
-a.moreArr {
-    display: inline-block;
-    margin-top: 2em;
-    font-size: 1.1em;
+.reverseFlex .sortDesc {
+    margin-left: 0;
+    margin-right: 100px;
+}
+
+.sortDesc a {
     color: #71a189;
-    padding-bottom: 5px;
+    display: block;
+    margin-top: 3em;
 }
 
-.moreArr:hover {
+.sortDesc a:hover {
     color: #608b76;
-    padding-bottom: 3px;
-    border-bottom: 2px solid;
-    transition: 100ms;
+}
+
+.white {
+    background: #faf4d5;
+}
+
+.red {
+    background: #f3d7d7;
 }
 
 #news {
@@ -189,12 +193,17 @@ a.moreArr {
     display: flex;
 }
 
-.postPreview img {
+.postImg {
     display: block;
-    max-width: 50%;
-    height: auto;
     padding-right: 2em;
     align-self: center;
+    min-width: 45%;
+}
+
+.postImg img {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 .postPreview a h3 {
@@ -229,23 +238,19 @@ a.moreArr {
 
 .readMore:hover {
     color: #608b76;
-    padding-bottom: 2px;
-    border-bottom: 1px solid;
-    transition: 500ms;
 }
 
 #about {
     display: flex;
-    margin: 100px 0 0;
+    margin: 100px auto;
     padding: 100px 0 0;
 }
 
 .title {
-    min-width: 25%;
-    max-width: 30%;
     align-self: center;
     background: #72435b;
     text-align: center;
+    min-width: 40%;
 }
 
 .title h2 {
@@ -254,18 +259,11 @@ a.moreArr {
     padding: 0.5em 1em;
 }
 
-.title img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
 .aboutDesc {
     padding: 0 5em;
     color: #686868;
     line-height: 1.5em;
     font-size: 1.1em;
-    max-width: 50%;
     align-self: center;
 }
 
@@ -321,13 +319,4 @@ p.firstP {
 footer {
     background: url(img/footer-bg.jpg) no-repeat bottom center;
     min-height: 600px;
-}
-
-@import url(responsive.css);
-
-/* to pass the fcc test */
-@media (max-width: 1920px) {
-body, html {
-    background: #ffffff;
-}
 }

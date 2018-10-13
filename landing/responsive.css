@@ -1,6 +1,27 @@
 @media only screen 
             and (min-width: 370px)
             and (max-width: 1080px) {
+.slogan {
+  position: static;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.slogan h1 {
+  font-size: 3em;
+  text-align: center;
+}
+
+#header-img {
+  margin: auto;
+  padding: 5em 0;
+}
+
+#nav-bar {
+  display: none;
+}
+
+
 
 
 

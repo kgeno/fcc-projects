@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <title>Sargantino Cellar</title>
 </head>
 <body>
@@ -14,18 +15,18 @@
         <nav class="scroll-navbar">
             <a href="#header"><img src="img/sagrantino-cellar-logo-white.png" alt="Sagrantino Cellar" id="scroll-logo"></a>
             <ul>
-                <li><a class="nav-link" href="#about">About Us</a></li>
                 <li><a class="nav-link" href="#assortment">Assortment</a></li>
                 <li><a class="nav-link" href="#news">News</a></li>
+                <li><a class="nav-link" href="#about">About Us</a></li>
                 <li><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
         </nav>
         <img src="img/sagrantino-cellar-logo-white.png" id="header-img">
         <nav id="nav-bar">
             <ul>
-                <li><a class="nav-link" href="#email">About Us</a></li>
                 <li><a class="nav-link" href="#assortment">Assortment</a></li>
                 <li><a class="nav-link" href="#news">News</a></li>
+                <li><a class="nav-link" href="#about">About Us</a></li>
                 <li><a class="nav-link" href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -35,8 +36,10 @@
     </header>
     <main>
         <div id="assortment">
-            <article>
-                <img class="white" src="img/La-Motte_Straw_large.png" alt="La Motte Straw">
+            <article class="sortItem">
+                <div class="sortImg white">
+                    <img src="img/La-Motte_Straw_large.png" alt="La Motte Straw">
+                </div>
                 <div class="sortDesc">
                     <h2>La Motte Straw</h2>
                     <p>
@@ -45,7 +48,10 @@
                     <a href="#" class="moreArr">&rarr; Show More</a>
                 </div>
             </article>
-            <article>
+            <article class="sortItem reverseFlex">
+                <div class="sortImg red">
+                    <img src="img/2015_Pierneef_Shiraz_Viognier_large.png" alt="Pierneef Syrah Viognier">
+                </div>
                 <div class="sortDesc">
                     <h2>Pierneef Syrah Viognier</h2>
                     <p>
@@ -53,12 +59,13 @@
                     </p>
                     <a href="#" class="moreArr">&rarr; Show More</a>
                 </div>
-                <img class="red" src="img/2015_Pierneef_Shiraz_Viognier_large.png" alt="Pierneef Syrah Viognier">
             </article>
-            <article>
-                <img class="white" src="img/La-Motte-Sauvignon-Blanc_large.png" alt="La Motte Sauvignon Blanc">
+            <article class="sortItem">
+                <div class="sortImg white">
+                    <img src="img/La-Motte-Sauvignon-Blanc_large.png" alt="La Motte Sauvignon Blanc">
+                </div>
                 <div class="sortDesc">
-                    <h2>La Motte Sauvignon Blanc</h2>
+                    <h2>Sauvignon Blanc</h2>
                     <p>
                         A refreshing aperitif and perfect with salads, seafoods, seafood pasta and spicy foods such as Chinese and Thai dishes.
                     </p>
@@ -68,7 +75,9 @@
         </div>
         <div id="news">
             <div class="postPreview">
-                <img src="img/La_Motte_Courtyard_for_Garden_Menu_13.jpg" alt="Sargantino Courtyard">
+                <div class="postImg">
+                    <img src="img/La_Motte_Courtyard_for_Garden_Menu_13.jpg" alt="Sargantino Courtyard">
+                </div>
                 <div class="postDesc">
                     <a href="#"><h3>Sargantino Cellar recognised as Wine Tourism Destination of the Year</h3></a>
                     <small>10/10/2018</small>
@@ -82,7 +91,6 @@
         <div id="about">
             <div class="title">
                 <h2>About Us</h2>
-                <!-- <img src="img/about-us-section.jpg" alt="Sagrantino Cellar"> -->
                 <div style="padding:56.25% 0 0 0;position:relative;"><iframe id="video" src="https://player.vimeo.com/video/16355819?title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
             </div>
             <div class="aboutDesc">
@@ -100,9 +108,9 @@
             <div class="col">
                 <h2>Contact Us</h2>
                 <ul>
-                    <li><i class="fas fa-phone-square"></i> +90 320 548 3364</li>
-                    <li><i class="fas fa-envelope-square"></i> info@sagrantinocellar.com</li>
-                    <li><i class="fab fa-facebook-square"></i> SagrantinoCellar</li>
+                    <li><i class="fas fa-phone-square"></i> <a href="#">+90 320 548 3364</a></li>
+                    <li><i class="fas fa-envelope-square"></i> <a href="#">info@sagrantinocellar.com</a></li>
+                    <li><i class="fab fa-facebook-square"></i> <a href="#">SagrantinoCellar</a></li>
                 </ul>
             </div>
             <div class="col">
