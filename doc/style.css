@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  float: left;
+  height: 100%;
+}
+
+nav:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+main {
+  float: right;
+}
