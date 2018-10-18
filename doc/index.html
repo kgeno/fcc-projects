@@ -3,378 +3,381 @@
 <head>
   <title>Rails Guides - Active Job Basics</title>
   <meta name="viewport" content="device=device-width">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/github-gist.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   
-<nav>
-  <header><h1>Rails Guides</h1></header>
-  <h2>Active Job Basics</h2>
-  <h3><a name="">Chapters</a></h3>
+<div class="wrapper">
+  <nav>
+    <header><h1>Rails Guides</h1></header>
+    <h2>Active Job Basics</h2>
+    <h3><a name="">Chapters</a></h3>
+    <ul>
+      <li><a href="#Introduction">Introduction</a></li>
+      <li><a href="#The-Purpose-of-Active-Job">The Purpose of Active Job</a></li>
+      <li><a href="#Creating-a-Job">Creating a Job
+        <ul>
+          <li><a href="#Create-the-Job">Create the Job</a></li>
+          <li><a href="#Enqueue-the-Job">Enqueue the Job</a></li>
+        </ul>
+      </a></li>
+      <li><a href="#Job-Execution">Job Execution
+        <ul>
+          <li><a href="#Backends">Backends</a></li>
+          <li><a href="#Setting-the-Backend">Setting the Backend</a></li>
+          <li><a href="#Starting-the-Backend">Starting the Backend</a></li>
+        </ul>
+      </a></li>
+      <li><a href="#Queues">Queues</a></li>
+      <li><a href="#Callbacks">Callbacks
+        <ul>
+          <li><a href="#Available-callbacks">Available callbacks</a></li>
+        </ul>
+      </a></li>
+      <li><a href="#Action-Mailer">Action Mailer</a></li>
+      <li><a href="#Internationalization">Internationalization</a></li>
+      <li><a href="#GlobalID">GlobalID</a></li>
+      <li><a href="#Exceptions">Exceptions
+        <ul>
+          <li><a href="#Retrying-or-Discarding-failed-jobs">Retrying or Discarding failed jobs</a></li>
+          <li><a href="#Deserialization">Deserialization</a></li>
+        </ul>
+      </a></li>
+      <li><a href="#Job-Testing">Job Testing</a></li>
+    </ul>
+  </nav>
+  <main>
+  
+  <h3><a name="Introduction">Introduction</a></h3>
+  <p>Active Job is a framework for declaring jobs and making them run on a variety of queuing backends. These jobs can be everything from regularly scheduled clean-ups, to billing charges, to mailings. Anything that can be chopped up into small units of work and run in parallel, really.</p>
+  
+  <h3><a name="The-Purpose-of-Active-Job">The Purpose of Active Job</a></h3>
+  <p>The main point is to ensure that all Rails apps will have a job infrastructure in place. We can then have framework features and other gems build on top of that, without having to worry about API differences between various job runners such as Delayed Job and Resque. Picking your queuing backend becomes more of an operational concern, then. And you'll be able to switch between them without having to rewrite your jobs.</p>
+  
+  <div class="note">Rails by default comes with an asynchronous queuing implementation that runs jobs with an in-process thread pool. Jobs will run asynchronously, but any jobs in the queue will be dropped upon restart.</div>
+  
+  <h3><a name="Creating-a-Job">Creating a Job</a></h3>
+  <p>This section will provide a step-by-step guide to creating a job and enqueuing it.</p>
+  
+  <h4><a name="Create-the-Job">Create the Job</a></h4>
+  <p>Active Job provides a Rails generator to create jobs. The following will create a job in app/jobs (with an attached test case under test/jobs):</p>
+  
+  <pre><code class="shell">
+  $ bin/rails generate job guests_cleanup
+  invoke  test_unit
+  create  test/jobs/guests_cleanup_job_test.rb
+  create  app/jobs/guests_cleanup_job.rb
+  </code></pre>
+  
+  <p>You can also create a job that will run on a specific queue:</p>
+  
+  <pre><code class="shell">
+  $ bin/rails generate job guests_cleanup --queue urgent
+  </code></pre>
+  
+  <p>If you don't want to use a generator, you could create your own file inside of app/jobs, just make sure that it inherits from ApplicationJob.</p>
+  
+  <p>Here's what a job looks like:</p>
+  
+  <pre><code class="ruby">
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :default
+   
+    def perform(*guests)
+      # Do something later
+    end
+  end
+  </code></pre>
+  
+  <p>Note that you can define perform with as many arguments as you want.</p>
+  
+  <h4><a name="Enqueue-the-Job">Enqueue the Job</a></h4>
+  <p>Enqueue a job like so:</p>
+  
+  <pre><code>
+  # Enqueue a job to be performed as soon as the queuing system is
+  # free.
+  GuestsCleanupJob.perform_later guest
+  </code></pre>
+  
+  <pre><code>
+  # Enqueue a job to be performed tomorrow at noon.
+  GuestsCleanupJob.set(wait_until: Date.tomorrow.noon).perform_later(guest)
+  </code></pre>
+  
+  <pre><code>
+  # Enqueue a job to be performed 1 week from now.
+  GuestsCleanupJob.set(wait: 1.week).perform_later(guest)
+  </code></pre>
+  
+  <pre><code>
+  # `perform_now` and `perform_later` will call `perform` under the hood so
+  # you can pass as many arguments as defined in the latter.
+  GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
+  </code></pre>
+  
+  <p>That's it!</p>
+  
+  <h3><a name="4-Job-Execution">4 Job Execution</a></h3>
+  <p>For enqueuing and executing jobs in production you need to set up a queuing backend, that is to say you need to decide for a 3rd-party queuing library that Rails should use. Rails itself only provides an in-process queuing system, which only keeps the jobs in RAM. If the process crashes or the machine is reset, then all outstanding jobs are lost with the default async backend. This may be fine for smaller apps or non-critical jobs, but most production apps will need to pick a persistent backend.</p>
+  
+  <h4><a name="Backends">Backends</a></h4>
+  <p>Active Job has built-in adapters for multiple queuing backends (Sidekiq, Resque, Delayed Job and others). To get an up-to-date list of the adapters see the API Documentation for <a href="http://api.rubyonrails.org/v5.2.1/classes/ActiveJob/QueueAdapters.html" target="_blank">ActiveJob::QueueAdapters</a>.</p>
+  
+  <h4><a name="Setting-the-Backend">Setting the Backend</a></h4>
+  <p>You can easily set your queuing backend:</p>
+  
+  <pre><code>
+  # config/application.rb
+  module YourApp
+    class Application &lt; Rails::Application
+      # Be sure to have the adapter's gem in your Gemfile
+      # and follow the adapter's specific installation
+      # and deployment instructions.
+      config.active_job.queue_adapter = :sidekiq
+    end
+  end
+  </code></pre>
+  
+  <p>You can also configure your backend on a per job basis.</p>
+  
+  <pre><code>
+  class GuestsCleanupJob &lt; ApplicationJob
+    self.queue_adapter = :resque
+    #....
+  end
+   
+  # Now your job will use `resque` as it's backend queue adapter overriding what
+  # was configured in `config.active_job.queue_adapter`.
+  </code></pre>
+  
+  <h4><a name="Starting-the-Backend">Starting the Backend</a></h4>
+  <p>Since jobs run in parallel to your Rails application, most queuing libraries require that you start a library-specific queuing service (in addition to starting your Rails app) for the job processing to work. Refer to library documentation for instructions on starting your queue backend.</p>
+  
+  <p>Here is a noncomprehensive list of documentation:</p>
   <ul>
-    <li><a href="#Introduction">Introduction</a></li>
-    <li><a href="#The-Purpose-of-Active-Job">The Purpose of Active Job</a></li>
-    <li><a href="#Creating-a-Job">Creating a Job
-      <ul>
-        <li><a href="#Create-the-Job">Create the Job</a></li>
-        <li><a href="#Enqueue-the-Job">Enqueue the Job</a></li>
-      </ul>
-    </a></li>
-    <li><a href="#Job-Execution">Job Execution
-      <ul>
-        <li><a href="#Backends">Backends</a></li>
-        <li><a href="#Setting-the-Backend">Setting the Backend</a></li>
-        <li><a href="#Starting-the-Backend">Starting the Backend</a></li>
-      </ul>
-    </a></li>
-    <li><a href="#Queues">Queues</a></li>
-    <li><a href="#Callbacks">Callbacks
-      <ul>
-        <li><a href="#Available-callbacks">Available callbacks</a></li>
-      </ul>
-    </a></li>
-    <li><a href="#Action-Mailer">Action Mailer</a></li>
-    <li><a href="#Internationalization">Internationalization</a></li>
-    <li><a href="#GlobalID">GlobalID</a></li>
-    <li><a href="#Exceptions">Exceptions
-      <ul>
-        <li><a href="#Retrying-or-Discarding-failed-jobs">Retrying or Discarding failed jobs</a></li>
-        <li><a href="#Deserialization">Deserialization</a></li>
-      </ul>
-    </a></li>
-    <li><a href="#Job-Testing">Job Testing</a></li>
+    <li><a href="https://github.com/mperham/sidekiq/wiki/Active-Job">Sidekiq</a></li>
+    <li><a href="https://github.com/resque/resque/wiki/ActiveJob">Resque</a></li>
+    <li><a href="https://github.com/jondot/sneakers/wiki/How-To:-Rails-Background-Jobs-with-ActiveJob">Sneakers</a></li>
+    <li><a href="https://github.com/brandonhilkert/sucker_punch#active-job">Sucker Punch</a></li>
+    <li><a href="https://github.com/QueueClassic/queue_classic#active-job">Queue Classic</a></li>
   </ul>
-</nav>
-<main>
-
-<h3><a name="Introduction">Introduction</a></h3>
-<p>Active Job is a framework for declaring jobs and making them run on a variety of queuing backends. These jobs can be everything from regularly scheduled clean-ups, to billing charges, to mailings. Anything that can be chopped up into small units of work and run in parallel, really.</p>
-
-<h3><a name="The-Purpose-of-Active-Job">The Purpose of Active Job</a></h3>
-<p>The main point is to ensure that all Rails apps will have a job infrastructure in place. We can then have framework features and other gems build on top of that, without having to worry about API differences between various job runners such as Delayed Job and Resque. Picking your queuing backend becomes more of an operational concern, then. And you'll be able to switch between them without having to rewrite your jobs.</p>
-
-<div class="note">Rails by default comes with an asynchronous queuing implementation that runs jobs with an in-process thread pool. Jobs will run asynchronously, but any jobs in the queue will be dropped upon restart.</div>
-
-<h3><a name="Creating-a-Job">Creating a Job</a></h3>
-<p>This section will provide a step-by-step guide to creating a job and enqueuing it.</p>
-
-<h4><a name="Create-the-Job">Create the Job</a></h4>
-<p>Active Job provides a Rails generator to create jobs. The following will create a job in app/jobs (with an attached test case under test/jobs):</p>
-
-<pre><code>
-$ bin/rails generate job guests_cleanup
-invoke  test_unit
-create    test/jobs/guests_cleanup_job_test.rb
-create  app/jobs/guests_cleanup_job.rb
-</code></pre>
-
-<p>You can also create a job that will run on a specific queue:</p>
-
-<pre><code>
-$ bin/rails generate job guests_cleanup --queue urgent
-</code></pre>
-
-<p>If you don't want to use a generator, you could create your own file inside of app/jobs, just make sure that it inherits from ApplicationJob.</p>
-
-<p>Here's what a job looks like:</p>
-
-<pre><code>
-class GuestsCleanupJob < ApplicationJob
-  queue_as :default
- 
-  def perform(*guests)
-    # Do something later
-  end
-end
-</code></pre>
-
-<p>Note that you can define perform with as many arguments as you want.</p>
-
-<h4><a name="Enqueue-the-Job">Enqueue the Job</a></h4>
-<p>Enqueue a job like so:</p>
-
-<pre><code>
-# Enqueue a job to be performed as soon as the queuing system is
-# free.
-GuestsCleanupJob.perform_later guest
-</code></pre>
-
-<pre><code>
-# Enqueue a job to be performed tomorrow at noon.
-GuestsCleanupJob.set(wait_until: Date.tomorrow.noon).perform_later(guest)
-</code></pre>
-
-<pre><code>
-# Enqueue a job to be performed 1 week from now.
-GuestsCleanupJob.set(wait: 1.week).perform_later(guest)
-</code></pre>
-
-<pre><code>
-# `perform_now` and `perform_later` will call `perform` under the hood so
-# you can pass as many arguments as defined in the latter.
-GuestsCleanupJob.perform_later(guest1, guest2, filter: 'some_filter')
-</code></pre>
-
-<p>That's it!</p>
-
-<h3><a name="4-Job-Execution">4 Job Execution</a></h3>
-<p>For enqueuing and executing jobs in production you need to set up a queuing backend, that is to say you need to decide for a 3rd-party queuing library that Rails should use. Rails itself only provides an in-process queuing system, which only keeps the jobs in RAM. If the process crashes or the machine is reset, then all outstanding jobs are lost with the default async backend. This may be fine for smaller apps or non-critical jobs, but most production apps will need to pick a persistent backend.</p>
-
-<h4><a name="Backends">Backends</a></h4>
-<p>Active Job has built-in adapters for multiple queuing backends (Sidekiq, Resque, Delayed Job and others). To get an up-to-date list of the adapters see the API Documentation for <a href="http://api.rubyonrails.org/v5.2.1/classes/ActiveJob/QueueAdapters.html" target="_blank">ActiveJob::QueueAdapters</a>.</p>
-
-<h4><a name="Setting-the-Backend">Setting the Backend</a></h4>
-<p>You can easily set your queuing backend:</p>
-
-<pre><code>
-# config/application.rb
-module YourApp
-  class Application < Rails::Application
-    # Be sure to have the adapter's gem in your Gemfile
-    # and follow the adapter's specific installation
-    # and deployment instructions.
-    config.active_job.queue_adapter = :sidekiq
-  end
-end
-</code></pre>
-
-<p>You can also configure your backend on a per job basis.</p>
-
-<pre><code>
-class GuestsCleanupJob < ApplicationJob
-  self.queue_adapter = :resque
-  #....
-end
- 
-# Now your job will use `resque` as it's backend queue adapter overriding what
-# was configured in `config.active_job.queue_adapter`.
-</code></pre>
-
-<h4><a name="Starting-the-Backend">Starting the Backend</a></h4>
-<p>Since jobs run in parallel to your Rails application, most queuing libraries require that you start a library-specific queuing service (in addition to starting your Rails app) for the job processing to work. Refer to library documentation for instructions on starting your queue backend.</p>
-
-<p>Here is a noncomprehensive list of documentation:</p>
-<ul>
-  <li><a href="https://github.com/mperham/sidekiq/wiki/Active-Job">Sidekiq</a></li>
-  <li><a href="https://github.com/resque/resque/wiki/ActiveJob">Resque</a></li>
-  <li><a href="https://github.com/jondot/sneakers/wiki/How-To:-Rails-Background-Jobs-with-ActiveJob">Sneakers</a></li>
-  <li><a href="https://github.com/brandonhilkert/sucker_punch#active-job">Sucker Punch</a></li>
-  <li><a href="https://github.com/QueueClassic/queue_classic#active-job">Queue Classic</a></li>
-</ul>
-
-<h3><a name="Queues">Queues</a></h3>
-<p>Most of the adapters support multiple queues. With Active Job you can schedule the job to run on a specific queue:</p>
-
-<pre><code>
-class GuestsCleanupJob < ApplicationJob
-  queue_as :low_priority
-  #....
-end
-</code></pre>
-
-<p>You can prefix the queue name for all your jobs using config.active_job.queue_name_prefix in application.rb:</p>
-
-<pre><code>
-# config/application.rb
-module YourApp
-  class Application < Rails::Application
-    config.active_job.queue_name_prefix = Rails.env
-  end
-end
   
-# app/jobs/guests_cleanup_job.rb
-class GuestsCleanupJob < ApplicationJob
-  queue_as :low_priority
-  #....
-end
+  <h3><a name="Queues">Queues</a></h3>
+  <p>Most of the adapters support multiple queues. With Active Job you can schedule the job to run on a specific queue:</p>
   
-# Now your job will run on queue production_low_priority on your
-# production environment and on staging_low_priority
-# on your staging environment
-</code></pre>
-
-<p>The default queue name prefix delimiter is '_'. This can be changed by setting config.active_job.queue_name_delimiter in application.rb:</p>
-
-<pre><code>
-# config/application.rb
-module YourApp
-  class Application < Rails::Application
-    config.active_job.queue_name_prefix = Rails.env
-    config.active_job.queue_name_delimiter = '.'
+  <pre><code>
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :low_priority
+    #....
   end
-end
+  </code></pre>
   
-# app/jobs/guests_cleanup_job.rb
-class GuestsCleanupJob < ApplicationJob
-  queue_as :low_priority
-  #....
-end
+  <p>You can prefix the queue name for all your jobs using config.active_job.queue_name_prefix in application.rb:</p>
   
-# Now your job will run on queue production.low_priority on your
-# production environment and on staging.low_priority
-# on your staging environment
-</code></pre>
-
-<p>If you want more control on what queue a job will be run you can pass a :queue option to #set:</p>
-
-<pre><code>
-MyJob.set(queue: :another_queue).perform_later(record)
-</code></pre>
-
-<p>To control the queue from the job level you can pass a block to #queue_as. The block will be executed in the job context (so you can access self.arguments) and you must return the queue name:</p>
-
-<pre><code>
-class ProcessVideoJob < ApplicationJob
-  queue_as do
-    video = self.arguments.first
-    if video.owner.premium?
-      :premium_videojobs
-    else
-      :videojobs
+  <pre><code>
+  # config/application.rb
+  module YourApp
+    class Application &lt; Rails::Application
+      config.active_job.queue_name_prefix = Rails.env
     end
   end
- 
-  def perform(video)
-    # Do process video
+    
+  # app/jobs/guests_cleanup_job.rb
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :low_priority
+    #....
   end
-end
- 
-ProcessVideoJob.perform_later(Video.last)
-</code></pre>
-
-<div class="note">Make sure your queuing backend "listens" on your queue name. For some backends you need to specify the queues to listen to.</div>
-
-<h3><a name="Callbacks">Callbacks</a></h3>
-<p>Active Job provides hooks to trigger logic during the life cycle of a job. Like other callbacks in Rails, you can implement the callbacks as ordinary methods and use a macro-style class method to register them as callbacks:</p>
-
-<pre><code>
-class GuestsCleanupJob < ApplicationJob
-  queue_as :default
- 
-  around_perform :around_cleanup
- 
-  def perform
-    # Do something later
-  end
- 
-  private
-    def around_cleanup(job)
-      # Do something before perform
-      yield
-      # Do something after perform
-    end
-end
-</code></pre>
-
-<p>The macro-style class methods can also receive a block. Consider using this style if the code inside your block is so short that it fits in a single line. For example, you could send metrics for every job enqueued:</p>
-
-<pre><code>
-class ApplicationJob
-  before_enqueue { |job| $statsd.increment "#{job.name.underscore}.enqueue" }
-end
-</code></pre>
-
-<h4><a name="Available-callbacks">Available callbacks</a></h4>
-<ul>
-  <li>before_enqueue</li>
-  <li>around_enqueue</li>
-  <li>after_enqueue</li>
-  <li>before_perform</li>
-  <li>around_perform</li>
-  <li>after_perform</li>
-</ul>
-
-<h3><a name="Action-Mailer">Action Mailer</a></h3>
-<p>One of the most common jobs in a modern web application is sending emails outside of the request-response cycle, so the user doesn't have to wait on it. Active Job is integrated with Action Mailer so you can easily send emails asynchronously:</p>
-
-<pre><code>
-# If you want to send the email now use #deliver_now
-UserMailer.welcome(@user).deliver_now
+    
+  # Now your job will run on queue production_low_priority on your
+  # production environment and on staging_low_priority
+  # on your staging environment
+  </code></pre>
   
-# If you want to send the email through Active Job use #deliver_later
-UserMailer.welcome(@user).deliver_later
-</code></pre>
-
-<div class="note">Using the asynchronous queue from a Rake task (for example, to send an email using .deliver_later) will generally not work because Rake will likely end, causing the in-process thread pool to be deleted, before any/all of the .deliver_later emails are processed. To avoid this problem, use .deliver_now or run a persistent queue in development.</div>
-
-<h3><a name="Internationalization">Internationalization</a></h3>
-<p>Each job uses the I18n.locale set when the job was created. Useful if you send emails asynchronously:</p>
-
-<pre><code>
-I18n.locale = :eo
- 
-UserMailer.welcome(@user).deliver_later # Email will be localized to Esperanto.
-</code></pre>
-
-<h3><a name="GlobalID">GlobalID</a></h3>
-<p>Active Job supports GlobalID for parameters. This makes it possible to pass live Active Record objects to your job instead of class/id pairs, which you then have to manually deserialize. Before, jobs would look like this:</p>
-
-<pre><code>
-class TrashableCleanupJob < ApplicationJob
-  def perform(trashable_class, trashable_id, depth)
-    trashable = trashable_class.constantize.find(trashable_id)
-    trashable.cleanup(depth)
+  <p>The default queue name prefix delimiter is '_'. This can be changed by setting config.active_job.queue_name_delimiter in application.rb:</p>
+  
+  <pre><code>
+  # config/application.rb
+  module YourApp
+    class Application &lt; Rails::Application
+      config.active_job.queue_name_prefix = Rails.env
+      config.active_job.queue_name_delimiter = '.'
+    end
   end
-end
-</code></pre>
-
-<p>Now you can simply do:</p>
-
-<pre><code>
-class TrashableCleanupJob < ApplicationJob
-  def perform(trashable, depth)
-    trashable.cleanup(depth)
+    
+  # app/jobs/guests_cleanup_job.rb
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :low_priority
+    #....
   end
-end
-</code></pre>
-
-<p>This works with any class that mixes in GlobalID::Identification, which by default has been mixed into Active Record classes.</p>
-
-<h3><a name="Exceptions">Exceptions</a></h3>
-<p>Active Job provides a way to catch exceptions raised during the execution of the job:</p>
-
-<pre><code>
-class GuestsCleanupJob < ApplicationJob
-  queue_as :default
- 
-  rescue_from(ActiveRecord::RecordNotFound) do |exception|
-    # Do something with the exception
+    
+  # Now your job will run on queue production.low_priority on your
+  # production environment and on staging.low_priority
+  # on your staging environment
+  </code></pre>
+  
+  <p>If you want more control on what queue a job will be run you can pass a :queue option to #set:</p>
+  
+  <pre><code>
+  MyJob.set(queue: :another_queue).perform_later(record)
+  </code></pre>
+  
+  <p>To control the queue from the job level you can pass a block to #queue_as. The block will be executed in the job context (so you can access self.arguments) and you must return the queue name:</p>
+  
+  <pre><code>
+  class ProcessVideoJob &lt; ApplicationJob
+    queue_as do
+      video = self.arguments.first
+      if video.owner.premium?
+        :premium_videojobs
+      else
+        :videojobs
+      end
+    end
+   
+    def perform(video)
+      # Do process video
+    end
   end
- 
-  def perform
-    # Do something later
+   
+  ProcessVideoJob.perform_later(Video.last)
+  </code></pre>
+  
+  <div class="note">Make sure your queuing backend "listens" on your queue name. For some backends you need to specify the queues to listen to.</div>
+  
+  <h3><a name="Callbacks">Callbacks</a></h3>
+  <p>Active Job provides hooks to trigger logic during the life cycle of a job. Like other callbacks in Rails, you can implement the callbacks as ordinary methods and use a macro-style class method to register them as callbacks:</p>
+  
+  <pre><code>
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :default
+   
+    around_perform :around_cleanup
+   
+    def perform
+      # Do something later
+    end
+   
+    private
+      def around_cleanup(job)
+        # Do something before perform
+        yield
+        # Do something after perform
+      end
   end
-end
-</code></pre>
-
-<h4><a name="Retrying-or-Discarding-failed-jobs">Retrying or Discarding failed jobs</a></h4>
-<p>It's also possible to retry or discard a job if an exception is raised during execution. For example:</p>
-
-<pre><code>
-class RemoteServiceJob < ApplicationJob
-  retry_on CustomAppException # defaults to 3s wait, 5 attempts
- 
-  discard_on ActiveJob::DeserializationError
- 
-  def perform(*args)
-    # Might raise CustomAppException or ActiveJob::DeserializationError
+  </code></pre>
+  
+  <p>The macro-style class methods can also receive a block. Consider using this style if the code inside your block is so short that it fits in a single line. For example, you could send metrics for every job enqueued:</p>
+  
+  <pre><code>
+  class ApplicationJob
+    before_enqueue { |job| $statsd.increment "#{job.name.underscore}.enqueue" }
   end
-end
-</code></pre>
-
-<p>To get more details see the API Documentation for <a href="http://api.rubyonrails.org/v5.2.1/classes/ActiveJob/Exceptions/ClassMethods.html" target="_blank">ActiveJob::Exceptions</a>.</p>
-
-<h4><a name="Deserialization">Deserialization</a></h4>
-<p>GlobalID allows serializing full Active Record objects passed to #perform.</p>
-
-<p>If a passed record is deleted after the job is enqueued but before the #perform method is called Active Job will raise an ActiveJob::DeserializationError exception.</p>
-
-<h3><a name="Job-Testing">Job Testing</a></h3>
-<p>You can find detailed instructions on how to test your jobs in the <a href="https://guides.rubyonrails.org/testing.html#testing-jobs" target="_blank">testing guide</a>.</p>
-
-</main>
-<footer>
-  <div class="wrapper">
+  </code></pre>
+  
+  <h4><a name="Available-callbacks">Available callbacks</a></h4>
+  <ul>
+    <li>before_enqueue</li>
+    <li>around_enqueue</li>
+    <li>after_enqueue</li>
+    <li>before_perform</li>
+    <li>around_perform</li>
+    <li>after_perform</li>
+  </ul>
+  
+  <h3><a name="Action-Mailer">Action Mailer</a></h3>
+  <p>One of the most common jobs in a modern web application is sending emails outside of the request-response cycle, so the user doesn't have to wait on it. Active Job is integrated with Action Mailer so you can easily send emails asynchronously:</p>
+  
+  <pre><code>
+  # If you want to send the email now use #deliver_now
+  UserMailer.welcome(@user).deliver_now
+    
+  # If you want to send the email through Active Job use #deliver_later
+  UserMailer.welcome(@user).deliver_later
+  </code></pre>
+  
+  <div class="note">Using the asynchronous queue from a Rake task (for example, to send an email using .deliver_later) will generally not work because Rake will likely end, causing the in-process thread pool to be deleted, before any/all of the .deliver_later emails are processed. To avoid this problem, use .deliver_now or run a persistent queue in development.</div>
+  
+  <h3><a name="Internationalization">Internationalization</a></h3>
+  <p>Each job uses the I18n.locale set when the job was created. Useful if you send emails asynchronously:</p>
+  
+  <pre><code>
+  I18n.locale = :eo
+   
+  UserMailer.welcome(@user).deliver_later # Email will be localized to Esperanto.
+  </code></pre>
+  
+  <h3><a name="GlobalID">GlobalID</a></h3>
+  <p>Active Job supports GlobalID for parameters. This makes it possible to pass live Active Record objects to your job instead of class/id pairs, which you then have to manually deserialize. Before, jobs would look like this:</p>
+  
+  <pre><code>
+  class TrashableCleanupJob &lt; ApplicationJob
+    def perform(trashable_class, trashable_id, depth)
+      trashable = trashable_class.constantize.find(trashable_id)
+      trashable.cleanup(depth)
+    end
+  end
+  </code></pre>
+  
+  <p>Now you can simply do:</p>
+  
+  <pre><code>
+  class TrashableCleanupJob &lt; ApplicationJob
+    def perform(trashable, depth)
+      trashable.cleanup(depth)
+    end
+  end
+  </code></pre>
+  
+  <p>This works with any class that mixes in GlobalID::Identification, which by default has been mixed into Active Record classes.</p>
+  
+  <h3><a name="Exceptions">Exceptions</a></h3>
+  <p>Active Job provides a way to catch exceptions raised during the execution of the job:</p>
+  
+  <pre><code>
+  class GuestsCleanupJob &lt; ApplicationJob
+    queue_as :default
+   
+    rescue_from(ActiveRecord::RecordNotFound) do |exception|
+      # Do something with the exception
+    end
+   
+    def perform
+      # Do something later
+    end
+  end
+  </code></pre>
+  
+  <h4><a name="Retrying-or-Discarding-failed-jobs">Retrying or Discarding failed jobs</a></h4>
+  <p>It's also possible to retry or discard a job if an exception is raised during execution. For example:</p>
+  
+  <pre><code>
+  class RemoteServiceJob &lt; ApplicationJob
+    retry_on CustomAppException # defaults to 3s wait, 5 attempts
+   
+    discard_on ActiveJob::DeserializationError
+   
+    def perform(*args)
+      # Might raise CustomAppException or ActiveJob::DeserializationError
+    end
+  end
+  </code></pre>
+  
+  <p>To get more details see the API Documentation for <a href="http://api.rubyonrails.org/v5.2.1/classes/ActiveJob/Exceptions/ClassMethods.html" target="_blank">ActiveJob::Exceptions</a>.</p>
+  
+  <h4><a name="Deserialization">Deserialization</a></h4>
+  <p>GlobalID allows serializing full Active Record objects passed to #perform.</p>
+  
+  <p>If a passed record is deleted after the job is enqueued but before the #perform method is called Active Job will raise an ActiveJob::DeserializationError exception.</p>
+  
+  <h3><a name="Job-Testing">Job Testing</a></h3>
+  <p>You can find detailed instructions on how to test your jobs in the <a href="https://guides.rubyonrails.org/testing.html#testing-jobs" target="_blank">testing guide</a>.</p>
+  
+  <footer>
     <ul>
       <li>You're encouraged to help improve the quality of this guide.</li>
       <li>Please contribute if you see any typos or factual errors. To get started, you can read our <a href="http://edgeguides.rubyonrails.org/contributing_to_ruby_on_rails.html#contributing-to-the-rails-documentation" target="_blank">documentation contributions</a> section.</li>
@@ -382,7 +385,10 @@ end
       <li> If for whatever reason you spot something to fix but cannot patch it yourself, please <a href="https://github.com/rails/rails/issues" target="_blank">open an issue</a>.</li>
       <li>And last but not least, any kind of discussion regarding Ruby on Rails documentation is very welcome on the <a href="https://groups.google.com/forum/#!forum/rubyonrails-docs" target="_blank">rubyonrails-docs mailing list</a>.</li>
     </ul>
-  </div>
-</footer>
+  </footer>
+    
+  </main>
+</div>
+
 </body>
 </html>
