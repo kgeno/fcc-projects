@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Roboto+Slab');
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  color: #444444;
+}
+
+.wrapper {
+  max-width: 1200px;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+header {
+  background: url(../img/header-bg.jpg) no-repeat left;
+  height: 100vh;
+}
+
+nav {
+  background: #3a3a3a;
+}
+
+nav h1 {
+  color: #eeeeee;
+  font-family: 'Roboto Slab', sans-serif;
+  font-weight: 100;
+}
+
+nav div.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+}
+
+nav ul li {
+  padding: 0 10px;
+}
+
+nav ul li:last-child {
+  padding-right: 0;
+}
+
+nav a {
+  color: #eeeeee;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #fff;
+}
+
+.banner ul {
+  color: #1b1b1b;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  list-style-type: none;
+  font-size: 2.5em;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+}
+
+.banner ul li {
+  padding: 5px 0;
+}
+
+.banner ul li:first-child {
+  font-size: 0.7em;
+}
+
+.banner ul li:last-child {
+  font-size: 0.5em;
+  font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+.bar {
+  background-color: #eeeeee !important;
+  margin-bottom: 20px;
+}
+
+.bar-blue {
+  background-color: #3c6aff !important;
+}
