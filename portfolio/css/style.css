@@ -350,6 +350,11 @@ input[type="submit"]:hover {
 }
 
 @media screen and (max-width: 836px) {
+.banner ul {
+  top: 40%;
+  left: 0;
+  width: 90%;
+}
 
 #about {
   flex-direction: column-reverse;
@@ -370,4 +375,14 @@ input[type="submit"]:hover {
   margin-bottom: 50px;
 }
 
+}
+
+@media screen and (max-width: 550px) {
+#testimonials {
+  display: none;
+}
+
+nav {
+  display: none;
+}
 }
