@@ -7,7 +7,7 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  color: #444444;
+  color: #555555;
 }
 
 .wrapper {
@@ -58,7 +58,10 @@ nav a {
 }
 
 nav a:hover {
-  color: #fff;
+  color: #f44da9;
+  border-bottom: 2px solid #f44da9;
+  transition: 50ms;
+  padding-bottom: 5px;
 }
 
 .banner ul {
@@ -85,20 +88,166 @@ nav a:hover {
   font-style: italic;
 }
 
+#about {
+  display: flex;
+  flex-basis: 50%;
+}
 
+.about-pic {
+  background: #eeeeee;
+  flex-basis: 50%;
+  max-height: 403px;
+}
 
+.about-pic img {
+  display: block;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto;
+}
 
+.about-desc {
+  flex-basis: 30%;
+  padding: 0 30px;
+}
 
+.about-desc h3, .about-desc h2, .about-desc p {
+  margin-bottom: 20px;
+}
 
+.about-desc p {
+  line-height: 1.6em;
+}
 
+.about-desc h3 {
+  font-weight: 100;
+  font-style: italic;
+}
 
-
+.about-bars ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  color: #979797;
+}
 
 .bar {
   background-color: #eeeeee !important;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .bar-blue {
   background-color: #3c6aff !important;
+}
+
+#portfolio h2 {
+  text-align: center;
+  margin: 100px 0;
+}
+
+#portfolio ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#portfolio ul li {
+  padding: 10px;
+  position: relative;
+}
+
+.portfolio-desc {
+  background-color: rgba(60, 106, 255, 0.8);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.portfolio-desc a {
+  color: #fff;
+}
+
+.portfolio-desc a:hover {
+  font-size: 1.2em;
+  transition: 200ms;
+}
+
+.portfolio-desc i {
+  display: inline-block;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.portfolio-desc li:first-child {
+  font-size: 2em;
+}
+
+.portfolio-desc:hover {
+  opacity: 1;
+}
+
+
+
+#testimonials h2 {
+  text-align: center;
+  margin: 100px 0;
+}
+
+#testimonials div.wrapper {
+  display: flex;
+}
+
+.test img {
+  display: block;
+  max-width: 100px;
+  height: auto;
+}
+
+#contact {
+  background: #eeeeee;
+  margin: 100px 0;
+  padding: 50px 10px;
+}
+
+.form h2 {
+  margin-bottom: 50px;
+}
+
+.form input, .form textarea {
+  display: block;
+  width: 100%;
+  background: #eeeeee;
+  border: none;
+  border-bottom: 1px solid #d0d0d0;
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  font-weight: 100;
+  font-family: 'Lato', sans-serif;
+  padding: 5px;
+}
+
+input[type="button"] {
+  background-color: #3c6aff;
+  border: none;
+  color: #fff;
+  min-height: 40px;
+  border-radius: 5px;
+  width: 80px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+input[type="button"]:hover {
+  background-color: #2a5cff;
 }
