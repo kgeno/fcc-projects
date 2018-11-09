@@ -7,3 +7,6 @@
 * [Landing Page - Sagrantino Cellar](https://geno.works/fcc-projects/landing)
   * Work in progress
 * [Techincal Documentation - Rails Guides](https://geno.works/fcc-projects/doc)
+  * Take on Rails Guides design
+* [Personal Portfolio - John Smith](https://geno.works/fcc-projects/portfolio/)
+  * Corporate style personal portfolio
